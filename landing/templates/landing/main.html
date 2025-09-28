@@ -336,16 +336,17 @@
             border-color: var(--silver);
         }
         
+        /* Improved Cabin Options */
         .cabin-options {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             gap: 15px;
             margin-top: 15px;
         }
         
         .cabin-option {
             text-align: center;
-            padding: 15px 10px;
+            padding: 20px 15px;
             background: rgba(40, 80, 120, 0.5);
             border-radius: 8px;
             cursor: pointer;
@@ -355,6 +356,10 @@
             font-size: 1.2rem;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         
         .cabin-option::before {
@@ -374,7 +379,7 @@
         
         .cabin-option:hover {
             background: rgba(60, 100, 140, 0.7);
-            transform: scale(1.1);
+            transform: scale(1.05);
             border-color: var(--gold);
         }
         
@@ -385,9 +390,22 @@
         .cabin-option.selected {
             background: var(--gold);
             color: var(--deep-blue);
-            transform: scale(1.1);
+            transform: scale(1.05);
             border-color: var(--silver);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cabin-label {
+            font-size: 1.1rem;
+            margin-top: 8px;
+            font-weight: normal;
+        }
+        
+        .cabin-class {
+            font-size: 0.9rem;
+            margin-top: 5px;
+            opacity: 0.8;
+            font-style: italic;
         }
         
         button {
@@ -433,13 +451,6 @@
             transform: translateY(0);
         }
         
-        .iceberg {
-            height: 80px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80"><path d="M50,60 Q70,20 90,60 Q110,20 130,60 Q150,20 170,60 Q190,20 210,60 Q230,20 250,60 L250,80 L50,80 Z" fill="white" opacity="0.8"/></svg>') center bottom no-repeat;
-            margin: 25px 0;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
-        }
-        
         .footer {
             text-align: center;
             padding: 20px;
@@ -457,7 +468,7 @@
             }
             
             .cabin-options {
-                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             }
             
             .radio-group {
@@ -480,7 +491,7 @@
             }
             
             .cabin-options {
-                grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
             }
         }
     </style>
@@ -523,8 +534,6 @@
                 <div class="fact-text">Children Survived</div>
             </div>
         </div>
-        
-        <div class="iceberg"></div>
         
         <div class="form-container">
             <form method="POST" action="/predict/" id="survival-form">
@@ -575,39 +584,57 @@
                         <div class="cabin-options">
                             <div class="cabin-option">
                                 <input type="radio" name="cabin" value="U" id="U" required>
-                                <label for="U"><strong>U</strong> – Unknown / Not Recorded</label>
+                                <div><strong>U</strong></div>
+                                <div class="cabin-label">Unknown</div>
+                                <div class="cabin-class">Not Recorded</div>
                             </div>
                             <div class="cabin-option">
                                 <input type="radio" name="cabin" value="C" id="C" required>
-                                <label for="C"><strong>C</strong> – 1st Class Cabin (Luxury)</label>
+                                <div><strong>C</strong></div>
+                                <div class="cabin-label">1st Class</div>
+                                <div class="cabin-class">Luxury Cabin</div>
                             </div>
                             <div class="cabin-option">
                                 <input type="radio" name="cabin" value="E" id="E" required>
-                                <label for="E"><strong>E</strong> – 1st Class Cabin</label>
+                                <div><strong>E</strong></div>
+                                <div class="cabin-label">1st Class</div>
+                                <div class="cabin-class">Premium Cabin</div>
                             </div>
                             <div class="cabin-option">
                                 <input type="radio" name="cabin" value="G" id="G" required>
-                                <label for="G"><strong>G</strong> – 2nd Class Cabin</label>
+                                <div><strong>G</strong></div>
+                                <div class="cabin-label">2nd Class</div>
+                                <div class="cabin-class">Standard Cabin</div>
                             </div>
                             <div class="cabin-option">
                                 <input type="radio" name="cabin" value="D" id="D" required>
-                                <label for="D"><strong>D</strong> – 1st Class Cabin</label>
+                                <div><strong>D</strong></div>
+                                <div class="cabin-label">1st Class</div>
+                                <div class="cabin-class">Premium Cabin</div>
                             </div>
                             <div class="cabin-option">
                                 <input type="radio" name="cabin" value="A" id="A" required>
-                                <label for="A"><strong>A</strong> – 1st Class Cabin</label>
+                                <div><strong>A</strong></div>
+                                <div class="cabin-label">1st Class</div>
+                                <div class="cabin-class">Premium Cabin</div>
                             </div>
                             <div class="cabin-option">
                                 <input type="radio" name="cabin" value="B" id="B" required>
-                                <label for="B"><strong>B</strong> – 1st Class Cabin</label>
+                                <div><strong>B</strong></div>
+                                <div class="cabin-label">1st Class</div>
+                                <div class="cabin-class">Premium Cabin</div>
                             </div>
                             <div class="cabin-option">
                                 <input type="radio" name="cabin" value="F" id="F" required>
-                                <label for="F"><strong>F</strong> – 2nd Class Cabin</label>
+                                <div><strong>F</strong></div>
+                                <div class="cabin-label">2nd Class</div>
+                                <div class="cabin-class">Standard Cabin</div>
                             </div>
                             <div class="cabin-option">
                                 <input type="radio" name="cabin" value="T" id="T" required>
-                                <label for="T"><strong>T</strong> – 3rd Class / Steerage</label>
+                                <div><strong>T</strong></div>
+                                <div class="cabin-label">3rd Class</div>
+                                <div class="cabin-class">Steerage</div>
                             </div>
                         </div>
                     </div>
