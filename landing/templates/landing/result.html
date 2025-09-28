@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titanic Survival Prediction Result</title>
+    <style>
+        :root {
+            --ocean-blue: #1a5276;
+            --deep-blue: #0c3c5c;
+            --ice-blue: #a8d8ea;
+            --gold: #d4af37;
+            --silver: #c0c0c0;
+            --survived-green: #2ecc71;
+            --not-survived-red: #e74c3c;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Playfair Display', 'Times New Roman', serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #0a1a2a, var(--deep-blue), var(--ocean-blue));
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Ocean waves animation */
+        .ocean {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%23000"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="%23000"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23000"/></svg>');
+            background-size: cover;
+            animation: wave 10s linear infinite;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        @keyframes wave {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1000px; }
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            background: rgba(10, 30, 50, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            border: 3px solid var(--gold);
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .header {
+            background: linear-gradient(to right, var(--deep-blue), var(--ocean-blue));
+            padding: 25px;
+            text-align: center;
+            border-bottom: 3px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+            margin: -30px -30px 30px -30px;
+        }
+        
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, var(--gold), var(--silver), var(--gold));
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+            color: white;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+        
+        .result-content {
+            padding: 20px;
+        }
+        
+        .prediction-box {
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        .survived {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.2), rgba(39, 174, 96, 0.3));
+            border: 3px solid var(--survived-green);
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.5);
+        }
+        
+        .not-survived {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.2), rgba(192, 57, 43, 0.3));
+            border: 3px solid var(--not-survived-red);
+            box-shadow: 0 0 20px rgba(231, 76, 60, 0.5);
+        }
+        
+        .prediction-text {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .survived .prediction-text {
+            color: var(--survived-green);
+            animation: pulse 2s infinite;
+        }
+        
+        .not-survived .prediction-text {
+            color: var(--not-survived-red);
+            animation: pulse 2s infinite;
+        }
+        
+        .result-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s;
+        }
+        
+        .result-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .result-message {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--gold);
+        }
+        
+        .historical-context {
+            background: rgba(30, 60, 90, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+            border-left: 4px solid var(--gold);
+        }
+        
+        .historical-context h3 {
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .historical-context p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .btn-back {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(to bottom, var(--gold), #b8941f);
+            border: none;
+            border-radius: 8px;
+            color: var(--deep-blue);
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-back:hover {
+            background: linear-gradient(to bottom, #e6c158, var(--gold));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .btn-back:active {
+            transform: translateY(0);
+        }
+        
+        .ship-illustration {
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100"><path d="M50,70 L350,70 L330,50 L320,30 L300,10 L250,0 L200,10 L150,0 L100,10 L80,30 L70,50 Z" fill="%23deb887" stroke="%238b4513" stroke-width="2"/><rect x="120" y="30" width="160" height="30" fill="%231a5276" stroke="%230c3c5c" stroke-width="2"/><rect x="140" y="40" width="30" height="15" fill="%23d4af37"/><rect x="230" y="40" width="30" height="15" fill="%23d4af37"/><circle cx="90" cy="70" r="8" fill="%23333"/><circle cx="310" cy="70" r="8" fill="%23333"/></svg>') center center no-repeat;
+            margin: 20px 0;
+            opacity: 0.9;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-style: italic;
+            width: 100%;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--gold);
+            opacity: 0;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .prediction-text {
+                font-size: 2.5rem;
+            }
+            
+            .result-message {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .prediction-text {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .result-content {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ocean"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Titanic Survival Prediction Result</h1>
+        </div>
+        
+        <div class="result-content">
+            <div class="ship-illustration"></div>
+            
+            <div class="prediction-box {% if prediction == 'Survived' %}survived{% else %}not-survived{% endif %}">
+                <div class="prediction-text">
+                    {% if prediction == "Survived" %}
+                        🎉 You Survived! 🎉
+                    {% else %}
+                        💔 Did Not Survive 💔
+                    {% endif %}
+                </div>
+                
+                <div class="result-message">
+                    {% if prediction == "Survived" %}
+                        <p>Congratulations! Based on the information provided, our analysis indicates you would have likely survived the Titanic disaster.</p>
+                        <p>Historical records show that women, children, and first-class passengers had higher survival rates.</p>
+                    {% else %}
+                        <p>Our analysis suggests that based on the information provided, you would not have survived the Titanic disaster.</p>
+                        <p>Historical data indicates that survival was influenced by factors like gender, age, and passenger class.</p>
+                    {% endif %}
+                </div>
+                
+                {% if prediction == "Survived" %}
+                    <img src="/media/images/survived.png" alt="Survived" class="result-image" width="400">
+                {% else %}
+                    <img src="/media/images/not_survived.png" alt="Not Survived" class="result-image" width="400">
+                {% endif %}
+            </div>
+            
+            <div class="historical-context">
+                <h3>📜 Historical Context</h3>
+                <p>The RMS Titanic sank in the early morning of April 15, 1912, after striking an iceberg during its maiden voyage.</p>
+                <p>Of the approximately 2,224 passengers and crew aboard, more than 1,500 died, making it one of the deadliest commercial peacetime maritime disasters in modern history.</p>
+                <p>Survival rates were significantly higher for women, children, and first-class passengers, highlighting the social inequalities of the era.</p>
+            </div>
+            
+            <a href="/" class="btn-back">Check Another Passenger</a>
+        </div>
+        
+        <div class="footer">
+            <p>Based on historical Titanic passenger data | Remembering the RMS Titanic (1912)</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pass Django prediction to JS safely
+            const prediction = "{{ prediction }}";
+        
+            // Run confetti only if survived
+            if (prediction === "Survived") {
+                createConfetti();
+            }
+        
+            // Animate prediction text
+            const predictionText = document.querySelector('.prediction-text');
+            if (predictionText) {
+                let scaled = false;
+                setInterval(() => {
+                    predictionText.style.transform = scaled ? 'scale(1)' : 'scale(1.05)';
+                    scaled = !scaled;
+                }, 2000);
+            }
+        });
+        
+        // Confetti creation
+        function createConfetti() {
+            const colors = ['#f94144', '#f3722c', '#f8961e', '#f9c74f', '#90be6d', '#43aa8b', '#577590'];
+            const container = document.querySelector('.prediction-box');
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '0px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                container.appendChild(confetti);
+        
+                animateConfetti(confetti);
+            }
+        }
+        
+        // Create keyframes once for confetti
+        const style = document.createElement('style');
+        style.textContent = `
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(500px) rotate(360deg); opacity: 0; }
+        }
+        `;
+        document.head.appendChild(style);
+        
+        // Animate a single confetti piece
+        function animateConfetti(confetti) {
+            const duration = Math.random() * 3 + 2;
+            const delay = Math.random() * 2;
+            confetti.style.animation = `fadeIn 0.5s ${delay}s forwards, fall ${duration}s ${delay}s linear infinite`;
+
+        }
+        </script>
+        
+</body>
+</html>
