@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-_@qc4c(9iiz!pm%0my6%ms-fx7wkd_hdb)3z#06@pogg$q@1fr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["titanic-survivor-8sob.onrender.com"]
+
 
 
 # Application definition
@@ -111,6 +112,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Static files (CSS, JavaScript, Images)
