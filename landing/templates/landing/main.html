@@ -13,8 +13,6 @@
             --silver: #c0c0c0;
             --dark-wood: #8b4513;
             --light-wood: #deb887;
-            --rose-dress: #c71585;
-            --jack-clothes: #8b4513;
         }
         
         * {
@@ -146,6 +144,41 @@
             font-style: italic;
             color: var(--ice-blue);
             font-size: 1.1rem;
+        }
+        
+        /* Titanic Facts Section */
+        .facts-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            gap: 15px;
+        }
+        
+        .fact-box {
+            background: rgba(30, 60, 90, 0.6);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            border-left: 3px solid var(--gold);
+            transition: transform 0.3s;
+        }
+        
+        .fact-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .fact-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--gold);
+            margin-bottom: 5px;
+        }
+        
+        .fact-text {
+            font-size: 0.9rem;
         }
         
         .form-container {
@@ -407,206 +440,6 @@
             filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
         }
         
-        /* Chibi Rose and Jack scene */
-        .chibi-scene {
-            position: relative;
-            height: 250px;
-            margin: 30px 0;
-            background: linear-gradient(to bottom, #0a2a4a, #1a5276);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-        
-        .plank {
-            position: absolute;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 8px;
-            background: linear-gradient(to right, #8b4513, #a0522d, #8b4513);
-            border-radius: 4px;
-            z-index: 2;
-        }
-        
-        .chibi-rose {
-            position: absolute;
-            bottom: 88px;
-            left: 45%;
-            width: 50px;
-            height: 70px;
-            z-index: 3;
-            animation: float 4s ease-in-out infinite;
-        }
-        
-        .chibi-rose-head {
-            position: absolute;
-            top: 0;
-            left: 15px;
-            width: 20px;
-            height: 20px;
-            background: #ffcc99;
-            border-radius: 50%;
-        }
-        
-        .chibi-rose-hair {
-            position: absolute;
-            top: -5px;
-            left: 10px;
-            width: 30px;
-            height: 15px;
-            background: #8b4513;
-            border-radius: 50% 50% 0 0;
-        }
-        
-        .chibi-rose-dress {
-            position: absolute;
-            top: 20px;
-            left: 5px;
-            width: 40px;
-            height: 50px;
-            background: var(--rose-dress);
-            border-radius: 40% 40% 0 0;
-        }
-        
-        .chibi-rose-dress::after {
-            content: "";
-            position: absolute;
-            top: 10px;
-            left: 15px;
-            width: 10px;
-            height: 10px;
-            background: white;
-            border-radius: 50%;
-        }
-        
-        .chibi-jack {
-            position: absolute;
-            bottom: 40px;
-            left: 55%;
-            width: 40px;
-            height: 60px;
-            z-index: 1;
-            animation: sink 6s ease-in-out infinite;
-        }
-        
-        .chibi-jack-head {
-            position: absolute;
-            top: 0;
-            left: 10px;
-            width: 20px;
-            height: 20px;
-            background: #ffcc99;
-            border-radius: 50%;
-        }
-        
-        .chibi-jack-hair {
-            position: absolute;
-            top: -3px;
-            left: 5px;
-            width: 30px;
-            height: 10px;
-            background: #8b4513;
-            border-radius: 50% 50% 0 0;
-        }
-        
-        .chibi-jack-body {
-            position: absolute;
-            top: 20px;
-            left: 5px;
-            width: 30px;
-            height: 40px;
-            background: var(--jack-clothes);
-            border-radius: 40% 40% 0 0;
-        }
-        
-        .chibi-jack-arm {
-            position: absolute;
-            top: 25px;
-            left: 35px;
-            width: 15px;
-            height: 5px;
-            background: var(--jack-clothes);
-            border-radius: 5px;
-        }
-        
-        .chibi-water {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background: rgba(26, 82, 118, 0.7);
-            animation: water-move 3s linear infinite;
-        }
-        
-        .chibi-stars {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="20" cy="30" r="1" fill="white" opacity="0.7"/><circle cx="80" cy="20" r="1" fill="white" opacity="0.7"/><circle cx="40" cy="10" r="1" fill="white" opacity="0.7"/><circle cx="70" cy="50" r="1" fill="white" opacity="0.7"/><circle cx="10" cy="70" r="1" fill="white" opacity="0.7"/><circle cx="60" cy="80" r="1" fill="white" opacity="0.7"/><circle cx="90" cy="90" r="1" fill="white" opacity="0.7"/></svg>');
-            animation: twinkle 4s ease-in-out infinite;
-        }
-        
-        .chibi-heart {
-            position: absolute;
-            top: 30px;
-            left: 48%;
-            width: 20px;
-            height: 20px;
-            background: pink;
-            transform: rotate(45deg);
-            animation: heartbeat 2s ease-in-out infinite;
-            z-index: 4;
-        }
-        
-        .chibi-heart:before, .chibi-heart:after {
-            content: "";
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: pink;
-            border-radius: 50%;
-        }
-        
-        .chibi-heart:before {
-            top: -10px;
-            left: 0;
-        }
-        
-        .chibi-heart:after {
-            top: 0;
-            left: -10px;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(2deg); }
-        }
-        
-        @keyframes sink {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(10px); }
-        }
-        
-        @keyframes water-move {
-            0% { background-position-x: 0; }
-            100% { background-position-x: 100px; }
-        }
-        
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-        
-        @keyframes heartbeat {
-            0%, 100% { transform: rotate(45deg) scale(1); }
-            50% { transform: rotate(45deg) scale(1.2); }
-        }
-        
         .footer {
             text-align: center;
             padding: 20px;
@@ -632,12 +465,8 @@
                 gap: 10px;
             }
             
-            .chibi-scene {
-                height: 200px;
-            }
-            
-            .plank {
-                width: 150px;
+            .facts-container {
+                flex-direction: column;
             }
         }
         
@@ -652,10 +481,6 @@
             
             .cabin-options {
                 grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-            }
-            
-            .chibi-scene {
-                height: 180px;
             }
         }
     </style>
@@ -675,26 +500,31 @@
             <div class="title-caption">The Unsinkable Ship That Met an Icy Fate</div>
         </div>
         
-        <div class="iceberg"></div>
-        
-        <!-- Chibi Rose and Jack scene -->
-        <div class="chibi-scene">
-            <div class="chibi-stars"></div>
-            <div class="plank"></div>
-            <div class="chibi-rose">
-                <div class="chibi-rose-hair"></div>
-                <div class="chibi-rose-head"></div>
-                <div class="chibi-rose-dress"></div>
+        <!-- Titanic Facts Section -->
+        <div class="facts-container">
+            <div class="fact-box">
+                <div class="fact-number">2,224</div>
+                <div class="fact-text">People On Board</div>
             </div>
-            <div class="chibi-jack">
-                <div class="chibi-jack-hair"></div>
-                <div class="chibi-jack-head"></div>
-                <div class="chibi-jack-body"></div>
-                <div class="chibi-jack-arm"></div>
+            <div class="fact-box">
+                <div class="fact-number">1,517</div>
+                <div class="fact-text">Lives Lost</div>
             </div>
-            <div class="chibi-water"></div>
-            <div class="chibi-heart"></div>
+            <div class="fact-box">
+                <div class="fact-number">706</div>
+                <div class="fact-text">Survivors</div>
+            </div>
+            <div class="fact-box">
+                <div class="fact-number">74%</div>
+                <div class="fact-text">Women Survived</div>
+            </div>
+            <div class="fact-box">
+                <div class="fact-number">52%</div>
+                <div class="fact-text">Children Survived</div>
+            </div>
         </div>
+        
+        <div class="iceberg"></div>
         
         <div class="form-container">
             <form method="POST" action="/predict/" id="survival-form">
